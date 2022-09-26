@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tawazun-deploy
+  namespace: namespace-tawazun
+  labels:
+    app: tawazun
+    service: tawazun-svc
+    name: name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tawazun
+      service: tawazun-svc
+  template:
+    metadata:
+      labels:
+        app: tawazun
+        service: tawazun-svc
+    spec:
+      containers:
+        - image: goname/tawazn-hakathon
+          name: tawazun
+          resources: 
+            requests: 
+              memory: 250Mi
+              cpu: "250m"
+            limits:
+              memory: 512Mi
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /home
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /home
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /home
+              port: 8080
+            failureThreshold: 30
+            periodSeconds: 10
+          ports:
+            - containerPort: 8080

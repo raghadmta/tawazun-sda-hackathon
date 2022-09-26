@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sql
+  namespace: namespace-tawazun
+  labels:
+    app: sql
+    name: name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sql
+  template:
+    metadata:
+      labels:
+        app: sql
+    spec:
+      volumes:
+        - name: sql-pv-claim
+          persistentVolumeClaim:
+            claimName: sql-pv-claim
+      containers:
+        - image: mysql
+          name: mysql
+          resources: 
+            requests: 
+              memory: 250Mi
+              cpu: "250m"
+            limits:
+              memory: 512Mi
+              cpu: "500m"
+          readinessProbe:
+            tcpSocket:
+              port: 3306 
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          livenessProbe:
+            tcpSocket:
+              port: 3306 
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          startupProbe:
+            tcpSocket:
+              port: 3306 
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          env:
+            - name: MYSQL_USER
+              value: "mysql"
+            - name: MYSQL_DATABASE
+              value: "mysql"
+            - name: MYSQL_PASSWORD
+              value: "mysql"
+            - name: MYSQL_ROOT_PASSWORD
+              value: "mysql"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: sql-pv-claim
