@@ -9,5 +9,7 @@ This is a simple Java spring boot application built during SDA hackathon. Projec
 <p align="center">
   <img src = "https://github.com/chandradeoarya/tawazun-sda-hackathon/blob/master/tazawun.gif?raw=true" width=600>
 </p>
+
 --- 
- ###### This project was part of Saudi Digital Acadmy's ( SDA ) DevOps BootCamp 2022
+
+###### This project was part of Saudi Digital Acadmy's ( SDA ) DevOps BootCamp 2022
